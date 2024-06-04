@@ -22,14 +22,14 @@ Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</s
 
 ### [Project Page](https://raymondwang987.github.io/NVDS/) | [Arxiv](https://arxiv.org/abs/2307.08695) | [Video](https://youtu.be/SNV9F-60xrE) | [视频](https://www.bilibili.com/video/BV1KW4y1d7F8/) | [Poster](https://github.com/RaymondWang987/NVDS/blob/main/PDF/NVDS_Poster_ICCV23.pdf) | [Supp](https://github.com/RaymondWang987/NVDS/blob/main/PDF/camera_ready/NVDS_supp.pdf) | [VDW Dataset](https://raymondwang987.github.io/VDW/) | [NVDS Repo](https://github.com/RaymondWang987/NVDS)
 
-## 🌼 VDW Dataset
+## 💦 License and Releasing Policy 
+We have released the VDW dataset under strict conditions. We must ensure that the releasing won’t violate any copyright requirements. **To this end, we will not release any video frames or the derived data in public.** Instead, we provide meta data and detailed toolkits, which can be used to reproduce VDW or generate your own data. All the meta data and toolkits are licensed under [CC BY-NC-SA 4.0](https://github.com/RaymondWang987/VDW_Dataset_Toolkits/blob/main/LICENSE), which can only be used for academic and research purposes. Refer to the [VDW official website](https://raymondwang987.github.io/VDW/) for more information.
+
+## 🌼 Dataset Highlight
 <p align="center">
 <img src="Assets/vdw1.png" width="85%">
 </p>
 Previous video depth datasets are limited in both diversity and volume. To compensate for the data shortage and boost the performance of learning-based video depth models, we elaborate a large-scale natural-scene dataset, Video Depth in the Wild (VDW). To the best of our knowledge, our VDW dataset is currently the largest video depth dataset with the most diverse video scenes. We collect stereo videos from diverse data sources. The VDW test set is with 90 videos and 12622 frames, while the VDW training set contains 14203 videos with over 2 million frames (8TB on hard drive). We also provide a VDW demo set with two sequences. Users could leverage the VDW official toolkits and demo sequences to learn about our data processing pipeline.
-
-## 💦 License and Releasing Policy 
-We have released the VDW dataset under strict conditions. We must ensure that the releasing won’t violate any copyright requirements. **To this end, we will not release any video frames or the derived data in public.** Instead, we provide meta data and detailed toolkits, which can be used to reproduce VDW or generate your own data. All the meta data and toolkits are licensed under [CC BY-NC-SA 4.0](https://github.com/RaymondWang987/VDW_Dataset_Toolkits/blob/main/LICENSE), which can only be used for academic and research purposes. Refer to the [VDW official website](https://raymondwang987.github.io/VDW/) for more information.
 
 ## 🔨 Installation
 + **Environments.** Two conda envs are required: `VDW` and `mask2former`. The VDW env is based on `python=3.6.13` and `pytorch==1.7.1`. Refer to the `requirements.txt` (packages retrieved by pip freeze) for details. **We install the basic packages,  [GMFlow](https://github.com/haofeixu/gmflow), and [SegFormer](https://github.com/NVlabs/SegFormer) in the VDW env, while create another mask2former env for [Mask2Former](https://github.com/facebookresearch/Mask2Former).**
