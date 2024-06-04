@@ -64,7 +64,7 @@ Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</s
   ```
   Meanwhile, you should also download the [segformer.b5.640x640.ade.160k.pth](https://connecthkuhk-my.sharepoint.com/personal/xieenze_connect_hku_hk/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fxieenze%5Fconnect%5Fhku%5Fhk%2FDocuments%2Fsegformer%2Ftrained%5Fmodels&ga=1) and [model_final_6b4a3a.pkl (Mask2Former)](https://dl.fbaipublicfiles.com/maskformer/mask2former/ade20k/semantic/maskformer2_swin_large_IN21k_384_bs16_160k_res640/model_final_6b4a3a.pkl), putting them into the `./sky/SegFormer-master/checkpoints/` and `./sky/Mask2Former/checkpoints/` folders respectively.
 
-+ **Generating Processing Scripts.** Remember to modify the `template_conda.sh` with your own conda patch. After that, you can generate the processing sh script `demo.sh` for the demo sequences.
++ **Processing Scripts.** Remember to modify the `template_conda.sh` with your own conda patch. After that, you can generate the processing sh script `demo.sh` for the demo sequences.
   ```
   python ./writesh/writesh.py --start 1 --end 2 --cuda 0 --shname ./demo.sh --fromdir ./VDW_Demo_Dataset/scenedetect/ --todir ./VDW_Demo_Dataset/processed_dataset/ --cut_black_bar False
   ```
