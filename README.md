@@ -93,7 +93,7 @@ Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</s
   ```
   bash demo.sh
   ```
-  The `demo.sh` contains the generation process of all demo sequences. With sequence `000001` as an example, the data processing pipeline is presented as follows. For our `./gmflow-main/`, `./sky/Mask2Former`, and `./sky/SegFormer-master/` folders, we conduct modifications based on their official repos to leverage their models in generating the VDW dataset. The disparity of final voted sky regions are set to zero.
+  The `demo.sh` contains the generation process of all demo sequences. With sequence `000001` as an example, the data processing pipeline is presented as follows. For our `./gmflow-main/`, `./sky/Mask2Former`, and `./sky/SegFormer-master/` folders, we conduct modifications based on their official repos to leverage their models in generating VDW. The disparity of final voted sky regions are set to zero.
   ```
   # Pre-processing
   conda deactivate
@@ -124,6 +124,34 @@ Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</s
 
   # Disparity generation (with GMFlow)
   CUDA_VISIBLE_DEVICES=0 python ./gmflow-main/main_gray.py --batch_size 2 --inference_dir ./VDW_Demo_Dataset/processed_dataset/000001/rgblr/ --dir_paired_data  --output_path ./VDW_Demo_Dataset/processed_dataset/000001/flow/ --resume ./gmflow-main/pretrained/gmflow_sintel-0c07dcb3.pth -- pred_bidir_flow --fwd_bwd_consistency_check --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/ --inference_size 720 1280
+  ```
+
++ **Invalid Sample Filtering.** Having obtained the annotations, we further filter the videos that are not qualified for our dataset. According to optical flow and valid masks, samples with the following three conditions are removed:
+  +  more than 30% of pixels in the consistency masks are invalid;
+  +  more than 10% of pixels have vertical disparity larger than two pixels;
+  +  the average range of horizontal disparity is less than 15 pixels.
+  
+  We utilize the saved `range_avg.txt`, `ver_ratio.txt` and the flow masks in `flow` folder to check all the sequences quantitatively. The unqualified sequences will be written to `--deletetxt` and deleted as follows. Besides, manually checking the quality of ground truth by visualization is necessary (many times needed). You can use `./check/checkgtvideos.py` to save video results (RGB, gt, and mask). 
+  ```
+  python ./check/checkvideos.py --start 1 --end 2 --base_dir ./VDW_Demo_Dataset/processed_dataset/ --deletetxt ./check/bad_demo.txt
+  python ./check/deletebad.py --deletetxt ./check/bad_demo.txt
+  ```
+  
++ **Post-processing.** At last, save the flow mask as a valid mask of pixels for training. Several unnecessary intermediate results will also be deleted.
+  ```
+  python deletefile.py --start 1 --end 2 --base_dir ./VDW_Demo_Dataset/processed_dataset/
+  python savemask.py --start 1 --end 2 --base_dir ./VDW_Demo_Dataset/processed_dataset/
+  ```
+  After all the progresses above, you can generate the disparity from stereo videos, not only to reproduce VDW dataset but also to make your own customized data. We provide the generated [VDW demo set](https://drive.google.com/drive/folders/1zY84BwSCSOH8WsHEwUBB4xgJ5eK7ie7N?usp=sharing) for all the users to validate their results. The final directory of the example sequnece `000001` will be:
+  ```
+   ./processed_dataset/000001
+  └─── left, right                # Left- and right-view frames
+  └─── left_gt, right_gt          # Disparity ground truth
+  └─── left_mask, right_mask      # Valid mask for training
+  └─── rgb.mp4                    # Original stereo video sequence
+  └─── range_avg.txt              # Data range of horizontal disparity
+  └─── shift_scale_lr.txt         # Scale and shift of horizontal disparity
+  └─── ver_ratio.txt              # Ratios of pixels with vertical disparity over 2 pixels
   ```
 
 ## 🍭 Acknowledgement
