@@ -20,7 +20,7 @@ Authors: [Yiran Wang](https://scholar.google.com.hk/citations?hl=zh-CN&user=p_Rn
 
 Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</sup>Adobe Research, <sup>3</sup>Nanyang Technological University
 
-### [Project Page](https://raymondwang987.github.io/NVDS/) | [NVDS](https://github.com/RaymondWang987/NVDS) | [VDW Dataset](https://raymondwang987.github.io/VDW/)
+### [Project Page](https://raymondwang987.github.io/NVDS/) | [NVDS](https://github.com/RaymondWang987/NVDS) | [Paper](https://openaccess.thecvf.com/content/ICCV2023/html/Wang_Neural_Video_Depth_Stabilizer_ICCV_2023_paper.html) | [VDW Dataset](https://raymondwang987.github.io/VDW/)
 
 ## 🌼 VDW Dataset
 <p align="center">
