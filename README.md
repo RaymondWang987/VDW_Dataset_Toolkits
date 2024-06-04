@@ -64,7 +64,7 @@ Previous video depth datasets are limited in both diversity and volume. To compe
   ffmpeg -i ./VDW_Demo_Dataset/raw_video/rgbdemo.mp4 -ss t0 -t t1 ./VDW_Demo_Dataset/scenedetect/000001.mp4
   ffmpeg -i ./VDW_Demo_Dataset/raw_video/rgbdemo.mp4 -ss t1 -t t2 ./VDW_Demo_Dataset/scenedetect/000002.mp4
   ```
-  Meanwhile, you should also download the [segformer.b5.640x640.ade.160k.pth](https://connecthkuhk-my.sharepoint.com/personal/xieenze_connect_hku_hk/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fxieenze%5Fconnect%5Fhku%5Fhk%2FDocuments%2Fsegformer%2Ftrained%5Fmodels&ga=1) and [model_final_6b4a3a.pkl (Mask2Former)](https://dl.fbaipublicfiles.com/maskformer/mask2former/ade20k/semantic/maskformer2_swin_large_IN21k_384_bs16_160k_res640/model_final_6b4a3a.pkl), putting them into the `./sky/SegFormer-master/checkpoints/` and `./sky/Mask2Former/checkpoints/` folders respectively.
+  Meanwhile, you should also download the [segformer.b5.640x640.ade.160k.pth](https://connecthkuhk-my.sharepoint.com/:f:/g/personal/xieenze_connect_hku_hk/Ept_oetyUGFCsZTKiL_90kUBy5jmPV65O5rJInsnRCDWJQ?e=CvGohw) and [model_final_6b4a3a.pkl (Mask2Former)](https://dl.fbaipublicfiles.com/maskformer/mask2former/ade20k/semantic/maskformer2_swin_large_IN21k_384_bs16_160k_res640/model_final_6b4a3a.pkl), putting them into the `./sky/SegFormer-master/checkpoints/` and `./sky/Mask2Former/checkpoints/` folders respectively.
 
 + **Processing Scripts.** Remember to modify the `template_conda.sh` with your own conda patch. After that, you can generate the processing sh script `demo.sh` for the demo sequences.
   ```
