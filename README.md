@@ -144,7 +144,7 @@ Previous video depth datasets are limited in both diversity and volume. To compe
   python deletefile.py --start 1 --end 2 --base_dir ./VDW_Demo_Dataset/processed_dataset/
   python savemask.py --start 1 --end 2 --base_dir ./VDW_Demo_Dataset/processed_dataset/
   ```
-  After all the steps above, you can generate the disparity from stereo videos, not only to reproduce VDW dataset but also to make your own customized data. We provide our processed [VDW demo set](https://drive.google.com/drive/folders/1zY84BwSCSOH8WsHEwUBB4xgJ5eK7ie7N?usp=sharing) for all the users to validate their results. The final directory of the example sequnece `000001` will be:
+  After all the steps above, you can generate the disparity from stereo videos, not only to reproduce VDW dataset but also to make your own customized data. We provide our [processed VDW demo set](https://drive.google.com/drive/folders/1zY84BwSCSOH8WsHEwUBB4xgJ5eK7ie7N?usp=sharing) for all the users to validate their results. The final directory of the example sequnece `000001` will be:
   ```
   ./processed_dataset/000001
   └─── left, right                # Left- and right-view frames
