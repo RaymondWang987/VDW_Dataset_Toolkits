@@ -59,7 +59,7 @@ Previous video depth datasets are limited in both diversity and volume. To compe
   cd VDW_Dataset_Toolkits
   scenedetect -i ./VDW_Demo_Dataset/raw_video/rgbdemo.mp4 -o ./VDW_Demo_Dataset/scenedetect/ split-video detect-adaptive
   ```
-  The two segmented sequences will be saved in `./VDW_Demo_Dataset/scenedetect/`. To run the toolkits, you should rename the sequences to `000001.mp4`, `000002.mp4`, etc. For reproducing the data, we provide the time stamps in our [meta data](https://raymondwang987.github.io/VDW/). Thus, [FFmpeg](https://ffmpeg.org/) can also be used to split the video with the time stamps.
+  The two segmented sequences will be saved in `./VDW_Demo_Dataset/scenedetect/`. To run the toolkits, you should rename the sequences to `000001.mp4`, `000002.mp4`, etc. For reproducing the data, we provide the time stamps in our [meta data](https://raymondwang987.github.io/VDW/). Thus, [FFmpeg](https://ffmpeg.org/) can also be used to extract the video with the time stamps.
   ```
   ffmpeg -i ./VDW_Demo_Dataset/raw_video/rgbdemo.mp4 -ss t0 -t t1 ./VDW_Demo_Dataset/scenedetect/000001.mp4
   ffmpeg -i ./VDW_Demo_Dataset/raw_video/rgbdemo.mp4 -ss t1 -t t2 ./VDW_Demo_Dataset/scenedetect/000002.mp4
