@@ -146,7 +146,7 @@ Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</s
   ```
   After all the progresses above, you can generate the disparity from stereo videos, not only to reproduce VDW dataset but also to make your own customized data. We provide the generated [VDW demo set](https://drive.google.com/drive/folders/1zY84BwSCSOH8WsHEwUBB4xgJ5eK7ie7N?usp=sharing) for all the users to validate their results. The final directory of the example sequnece `000001` will be:
   ```
-   ./processed_dataset/000001
+  ./processed_dataset/000001
   └─── left, right                # Left- and right-view frames
   └─── left_gt, right_gt          # Disparity ground truth
   └─── left_mask, right_mask      # Valid mask for training
