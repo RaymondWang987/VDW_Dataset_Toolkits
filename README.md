@@ -50,7 +50,7 @@ Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</s
 
   
 ## ⚡ Data Generation with VDW Demo Set
-+ **Prerequisite.** We spliced ​​two sequences into a demo video to illustrate on the video scene segmentation (i.e., scene boundary detection). Only the sequence with consecutive camera motion can be considered as one sample in the dataset. We use [PySceneDetect](https://github.com/Breakthrough/PySceneDetect) to split the raw video `./VDW_Demo_Dataset/raw_video/rgbdemo.mp4` into sequences.
++ **Prerequisite.** We splice ​​two sequences into a demo video to illustrate on the video scene segmentation. Only the sequence with consecutive camera motion can be considered as one sample in the dataset. We use [PySceneDetect](https://github.com/Breakthrough/PySceneDetect) to split the raw video `./VDW_Demo_Dataset/raw_video/rgbdemo.mp4` into sequences.
   ```
   conda activate VDW
   pip install scenedetect[opencv] --upgrade
@@ -68,7 +68,7 @@ Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</s
   ```
   python ./writesh/writesh.py --start 1 --end 2 --cuda 0 --shname ./demo.sh --fromdir ./VDW_Demo_Dataset/scenedetect/ --todir ./VDW_Demo_Dataset/processed_dataset/ --cut_black_bar False
   ```
-  If you are running on more videos, you can simply adjust `--start 1 --end 2` to start and end numbers of your sequences. The `./writesh/writesh.py` can: (1) generate the running script; (2) make necessary folders in `--todir`, which will save your processed dataset; (3) copy the sequences from `--fromdir` to the `--todir` directory. We showcase sequence `000001` as an example of `./VDW_Demo_Dataset/processed_dataset/` as follows:
+  If you are running on more videos, you can simply adjust `--start 1 --end 2` to start and end numbers of your sequences. If your raw video contain black bars or subtitles, set `--cut_black_bar True` to remove those area. In our demo code, we simply center-crop the frames into $1880\times 800$. Change the area in `./process/cut_edge.py` if it does not match your videos. Overall, the `./writesh/writesh.py` can: (1) generate the running script; (2) make necessary folders in `--todir`, which will save your processed dataset; (3) copy the sequences from `--fromdir` to the `--todir` directory. We showcase sequence `000001` as an example of `./VDW_Demo_Dataset/processed_dataset/` as follows:
   ```
   ./processed_dataset/000001
   └─── rgblr                      # Rgb frames for GMFlow
@@ -89,7 +89,42 @@ Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</s
   └─── ver_ratio.txt              # Ratios of pixels with vertical disparity over 2 pixels
   ```
 
-  + **Data Generation.**
++ **Data Generation.** The data generation process can start by running the script. You can simply adopt multiple scripts on different GPUs (specify `--cuda` for the `./writesh/writesh.py`) to generate large-scale data parallelly.
+  ```
+  bash demo.sh
+  ```
+  The `demo.sh` contains the generation process of all demo sequences. With sequence `000001` as an example, the data processing pipeline is presented as follows. For our `./gmflow-main/`, `./sky/Mask2Former`, and `./sky/SegFormer-master/` folders, we conduct modifications based on their official repos to leverage their models in generating the VDW dataset. The disparity of final voted sky regions are set to zero.
+  ```
+  # Pre-processing
+  conda deactivate
+  conda activate VDW
+  ffmpeg -i ./VDW_Demo_Dataset/processed_dataset/000001/rgb.mp4 -vf "stereo3d=sbsl:ml,scale=iw*2:ih" -x264-params "crf=24" -c:a copy -y ./VDW_Demo_Dataset/processed_dataset/000001/rgbl.mp4
+  ffmpeg -i ./VDW_Demo_Dataset/processed_dataset/000001/rgb.mp4 -vf "stereo3d=sbsl:mr,scale=iw*2:ih" -x264-params "crf=24" -c:a copy -y ./VDW_Demo_Dataset/processed_dataset/000001/rgbr.mp4
+  python ./process/extract_frames.py --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/
+  python ./process/readrgb.py --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/
+  python ./process/fliprgb.py --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/
+  python ./process/lrf2video.py --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/
+
+  # Sky segmentation (with SegFormer)
+  python ./sky/SegFormer-master/demo/image_demo.py ./sky/SegFormer-master/local_configs/segformer/B5/segformer.b5.640x640.ade.160k.py ./sky/SegFormer-master/checkpoints/segformer.b5.640x640.ade.160k.pth --device cuda:0 --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/
+
+  # Sky segmentation (with Mask2Former)
+  conda deactivate
+  conda activate mask2former
+  CUDA_VISIBLE_DEVICES=0 python ./sky/Mask2Former/demo/demo.py --config-file ./sky/Mask2Former/configs/ade20k/semantic-segmentation/swin/maskformer2_swin_large_IN21k_384_bs16_160k_res640.yaml --video-input ./VDW_Demo_Dataset/processed_dataset/000001/leftrgb.avi --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/l3/ --mode noflip --opts MODEL.WEIGHTS ./sky/Mask2Former/checkpoints/model_final_6b4a3a.pkl
+  CUDA_VISIBLE_DEVICES=0 python ./sky/Mask2Former/demo/demo.py --config-file ./sky/Mask2Former/configs/ade20k/semantic-segmentation/swin/maskformer2_swin_large_IN21k_384_bs16_160k_res640.yaml --video-input ./VDW_Demo_Dataset/processed_dataset/000001/leftrgb_flip.avi --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/l4/ --mode noflip --opts MODEL.WEIGHTS ./sky/Mask2Former/checkpoints/model_final_6b4a3a.pkl
+  CUDA_VISIBLE_DEVICES=0 python ./sky/Mask2Former/demo/demo.py --config-file ./sky/Mask2Former/configs/ade20k/semantic-segmentation/swin/maskformer2_swin_large_IN21k_384_bs16_160k_res640.yaml --video-input ./VDW_Demo_Dataset/processed_dataset/000001/rightrgb.avi --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/r3/ --mode noflip --opts MODEL.WEIGHTS ./sky/Mask2Former/checkpoints/model_final_6b4a3a.pkl
+  CUDA_VISIBLE_DEVICES=0 python ./sky/Mask2Former/demo/demo.py --config-file ./sky/Mask2Former/configs/ade20k/semantic-segmentation/swin/maskformer2_swin_large_IN21k_384_bs16_160k_res640.yaml --video-input ./VDW_Demo_Dataset/processed_dataset/000001/rightrgb_flip.avi --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/r4/ --mode noflip --opts MODEL.WEIGHTS ./sky/Mask2Former/checkpoints/model_final_6b4a3a.pkl
+
+  # Sky ensemble and voting
+  conda deactivate
+  conda activate VDW
+  python ./process/vote_sky.py --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/
+  python ./process/fill_hole.py --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/
+
+  # Disparity generation (with GMFlow)
+  CUDA_VISIBLE_DEVICES=0 python ./gmflow-main/main_gray.py --batch_size 2 --inference_dir ./VDW_Demo_Dataset/processed_dataset/000001/rgblr/ --dir_paired_data  --output_path ./VDW_Demo_Dataset/processed_dataset/000001/flow/ --resume ./gmflow-main/pretrained/gmflow_sintel-0c07dcb3.pth -- pred_bidir_flow --fwd_bwd_consistency_check --base_dir ./VDW_Demo_Dataset/processed_dataset/000001/ --inference_size 720 1280
+  ```
 
 ## 🍭 Acknowledgement
 We thank the authors for releasing [PyTorch](https://pytorch.org/), [MiDaS](https://github.com/intel-isl/MiDaS), [DPT](https://github.com/isl-org/DPT), [GMFlow](https://github.com/haofeixu/gmflow), [SegFormer](https://github.com/NVlabs/SegFormer), [VSS-CFFM](https://github.com/GuoleiSun/VSS-CFFM), [Mask2Former](https://github.com/facebookresearch/Mask2Former), [PySceneDetect](https://github.com/Breakthrough/PySceneDetect), and [FFmpeg](http://ffmpeg.org/). Thanks for their solid contributions and cheers to the community.
