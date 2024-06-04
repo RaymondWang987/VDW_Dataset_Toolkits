@@ -139,7 +139,7 @@ Previous video depth datasets are limited in both diversity and volume. To compe
   python ./check/deletebad.py --deletetxt ./check/bad_demo.txt
   ```
   
-+ **Post-processing.** At last, save the flow mask as a valid mask of pixels for training. Several unnecessary intermediate results will also be deleted.
++ **Post-processing.** At last, the flow masks are saved as the valid masks of pixels for training. Several unnecessary intermediate results will also be deleted.
   ```
   python deletefile.py --start 1 --end 2 --base_dir ./VDW_Demo_Dataset/processed_dataset/
   python savemask.py --start 1 --end 2 --base_dir ./VDW_Demo_Dataset/processed_dataset/
