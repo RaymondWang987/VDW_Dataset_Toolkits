@@ -20,6 +20,8 @@ Authors: [Yiran Wang](https://scholar.google.com.hk/citations?hl=zh-CN&user=p_Rn
 
 Institutes: <sup>1</sup>Huazhong University of Science and Technology, <sup>2</sup>Adobe Research, <sup>3</sup>Nanyang Technological University
 
+### [Project Page](https://raymondwang987.github.io/NVDS/) | [NVDS](https://github.com/RaymondWang987/NVDS) | [VDW Dataset](https://raymondwang987.github.io/VDW/)
+
 ## 🌼 VDW Dataset
 <p align="center">
 <img src="Assets/vdw1.png" width="90%">
@@ -159,11 +161,13 @@ We thank the authors for releasing [PyTorch](https://pytorch.org/), [MiDaS](http
 
 ## 📧 Citation
 ```
-@article{wang2023neural,
-  title={Neural Video Depth Stabilizer},
-  author={Wang, Yiran and Shi, Min and Li, Jiaqi and Huang, Zihao and Cao, Zhiguo and Zhang, Jianming and Xian, Ke and Lin, Guosheng},
-  journal={arXiv preprint arXiv:2307.08695},
-  year={2023}
+@InProceedings{Wang_2023_ICCV,
+    author    = {Wang, Yiran and Shi, Min and Li, Jiaqi and Huang, Zihao and Cao, Zhiguo and Zhang, Jianming and Xian, Ke and Lin, Guosheng},
+    title     = {Neural Video Depth Stabilizer},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    month     = {October},
+    year      = {2023},
+    pages     = {9466-9476}
 }
 ```
   
