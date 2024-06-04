@@ -70,7 +70,7 @@ Previous video depth datasets are limited in both diversity and volume. To compe
   ```
   python ./writesh/writesh.py --start 1 --end 2 --cuda 0 --shname ./demo.sh --fromdir ./VDW_Demo_Dataset/scenedetect/ --todir ./VDW_Demo_Dataset/processed_dataset/ --cut_black_bar False
   ```
-  If you are running on more videos, you can simply adjust `--start 1 --end 2` to start and end numbers of your sequences. If your raw video contain black bars or subtitles, set `--cut_black_bar True` to remove those area. In our demo code, we simply center-crop the frames into $1880\times 800$. Change the area in `./process/cut_edge.py` if it does not match your videos. Overall, the `./writesh/writesh.py` can: (1) generate the running script; (2) make necessary folders in `--todir`, which will save your processed dataset; (3) copy the sequences from `--fromdir` to the `--todir` directory. We showcase sequence `000001` of `./VDW_Demo_Dataset/processed_dataset/` as follows:
+  If you are working on more videos, you can adjust `--start 1 --end 2` to the start and end numbers of your sequences. If your raw videos contain black bars or subtitles, set `--cut_black_bar True` to remove those areas. In our demo code, we simply center-crop frames to $1880\times 800$. Change it in `./process/cut_edge.py` if that does not match your videos. Overall, the `./writesh/writesh.py` can: (1) generate the running script; (2) build necessary folders in `--todir`, which will save your processed dataset; (3) copy the sequences from `--fromdir` to the `--todir` directory. We showcase sequence `000001` of `./VDW_Demo_Dataset/processed_dataset/` as follows:
   ```
   ./processed_dataset/000001
   └─── rgblr                      # Rgb frames for GMFlow
